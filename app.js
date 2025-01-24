@@ -57,9 +57,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/feed", feedRoutes);
-app.use("/auth", authRoutes);
-
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
@@ -78,9 +75,8 @@ mongoose
   )
   .then((result) => {
     console.log('Connected to MongoDB');
-    const server = app.listen(8080, () => {
+    app.listen(8080, () => {
       console.log('Server is running on port 8080');
     });
-    const io = require('./socket').init(server);
   })
   .catch((err) => console.log(err));
