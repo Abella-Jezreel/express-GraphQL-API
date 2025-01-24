@@ -150,4 +150,5 @@
 
    1. npm install graphql
    2. npm install express-graphql --legacy-peer-deps
+   3. npm install validator --legacy-peer-deps
 
