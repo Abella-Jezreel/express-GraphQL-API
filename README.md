@@ -148,5 +148,6 @@
 
    ---
 
-   Happy coding!
+   1. npm install graphql
+   2. npm install express-graphql --legacy-peer-deps
 
