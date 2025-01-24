@@ -5,9 +5,6 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const multer = require("multer");
 
-const feedRoutes = require("./routes/feed");
-const authRoutes = require("./routes/auth");
-
 const app = express();
 
 const imagesDir = path.join(__dirname, "images");
