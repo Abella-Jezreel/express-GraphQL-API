@@ -7,6 +7,11 @@ module.exports = buildSchema(`
         password: String
     }
 
+    input UserInput {
+        email: String!
+        password: String!
+    }
+
     type RootMutation {
         createUser(userInput: UserInput): User!
     }
