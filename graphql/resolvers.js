@@ -93,6 +93,7 @@ module.exports = {
       throw error;
     }
     const user = await User.findById(req.userId);
+    console.log('User:', user);
     if (!user) {
       const error = new Error("Invalid user.");
       error.code = 401;
@@ -102,7 +103,6 @@ module.exports = {
       title: postInput.title,
       content: postInput.content,
       imageUrl: postInput.imageUrl,
-      creatorName: user.name,
       creator: user,
     });
     const createdPost = await post.save();

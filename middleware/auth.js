@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
   }
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, 'somesupersecretkey');
+    decodedToken = jwt.verify(token, 'somesupersecretsecret');
   } catch (err) {
     req.isAuth = false;
     return next();
@@ -23,12 +23,12 @@ module.exports = async (req, res, next) => {
     req.isAuth = false;
     return next();
   }
-  const user = await User.findById(decodedToken.userId);
-  if (!user) {
-    req.isAuth = false;
-    return next();
-  }
-  req.isAuth = true;
+  // const user = await User.findById(decodedToken.userId);
+  // if (!user) {
+  //   req.isAuth = false;
+  //   return next();
+  // }
   req.userId = decodedToken.userId;
+  req.isAuth = true;
   next();
 };

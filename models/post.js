@@ -20,10 +20,10 @@ const postSchema = new Schema(
       ref: "User",
       required: true,
     },
-    creatorName: {
-      type: String,
-      required: true,
-    },
+    // creatorName: {
+    //   type: String,
+    //   required: true,
+    // },
   },
   { timestamps: true }
 );
