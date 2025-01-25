@@ -68,11 +68,11 @@ module.exports = {
   },
 
   createPost: async function ({ postInput }, req) {
-    // if (!req.isAuth) {
-    //   const error = new Error("Not authenticated!");
-    //   error.code = 401;
-    //   throw error;
-    // }
+    if (!req.isAuth) {
+      const error = new Error("Not authenticated!");
+      error.code = 401;
+      throw error;
+    }
     const errors = [];
     if (
       validator.isEmpty(postInput.title) ||
@@ -92,7 +92,7 @@ module.exports = {
       error.code = 422;
       throw error;
     }
-    const user = await User.findById('67938bb47b79bcc6343bc238');
+    const user = await User.findById(req.userId);
     if (!user) {
       const error = new Error("Invalid user.");
       error.code = 401;

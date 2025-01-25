@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const multer = require("multer");
 const { graphqlHTTP } = require("express-graphql");
-
+const auth = require("./middleware/auth");
 const graphqlSchema = require("./graphql/schema");
 const graphqlResolver = require("./graphql/resolvers");
 
@@ -45,6 +45,7 @@ const fileFilter = (req, file, cb) => {
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
 
 app.use(bodyParser.json());
+app.use(auth);
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
 );
