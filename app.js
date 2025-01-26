@@ -8,6 +8,7 @@ const { graphqlHTTP } = require("express-graphql");
 const auth = require("./middleware/auth");
 const graphqlSchema = require("./graphql/schema");
 const graphqlResolver = require("./graphql/resolvers");
+const cors = require("cors");
 
 const app = express();
 
@@ -44,12 +45,31 @@ const fileFilter = (req, file, cb) => {
 
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
 
-app.use(bodyParser.json());
-app.use(auth);
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
 );
 app.use("/images", express.static(path.join(__dirname, "images")));
+
+app.use(bodyParser.json());
+app.use(cors());
+app.use("/post-image", (req, res, next) => {
+  console.log(req, "req");
+  // if (!req.isAuth) {
+  //   const error = new Error('Not authenticated!');
+  //   error.code = 401;
+  //   throw error;
+  // }
+  if (!req.file) {
+    return res.status(200).json({ message: "No image provided." });
+  }
+  if (req.body.oldPath) {
+    clearImage(req.body.oldPath);
+  }
+  return res
+    .status(201)
+    .json({ message: "File stored.", filePath: req.file.path });
+});
+app.use(auth);
 
 // we need to set headers to avoid CORS issues
 app.use((req, res, next) => {
@@ -59,7 +79,7 @@ app.use((req, res, next) => {
     "GET, POST, PUT, PATCH, DELETE"
   );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  if(req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return res.sendStatus(200);
   }
   next();
@@ -106,3 +126,8 @@ mongoose
     });
   })
   .catch((err) => console.log(err));
+
+const clearImage = (filePath) => {
+  filePath = path.join(__dirname, "..", filePath);
+  fs.unlink(filePath, (err) => console.log(err));
+};
