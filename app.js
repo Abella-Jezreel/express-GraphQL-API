@@ -51,12 +51,12 @@ app.use(
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(bodyParser.json());
-app.use(cors());
 app.use(auth);
+app.use(cors());
 app.use("/post-image", (req, res, next) => {
   console.log(req, "req");
   if (!req.isAuth) {
-    const error = new Error('Not authenticated!');
+    const error = new Error("Not authenticated!");
     error.code = 401;
     throw error;
   }
@@ -67,8 +67,8 @@ app.use("/post-image", (req, res, next) => {
     clearImage(req.body.oldPath);
   }
   return res
-  .status(201)
-  .json({ message: "File stored.", filePath: req.file.path });
+    .status(201)
+    .json({ message: "File stored.", filePath: req.file.path });
 });
 
 // we need to set headers to avoid CORS issues
